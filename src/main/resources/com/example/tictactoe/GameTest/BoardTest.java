@@ -1,5 +1,6 @@
 package com.example.tictactoe;
 
+import javafx.application.Platform;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -51,3 +52,57 @@ class BoardTest {
     }
 }
 
+class BoardViewTest {
+
+    private BoardView boardView;
+
+    @BeforeEach
+    void setUp() {
+        Platform.startup(() -> boardView = new BoardView()); // Starta JavaFX och skapa BoardView
+    }
+
+    @Test
+    void testReset() {
+        Platform.runLater(() -> {
+            // Sätt celler med text
+            boardView.getCell(0, 0).setText("X");
+            boardView.getCell(1, 1).setText("O");
+
+            // Utför reset
+            boardView.reset();
+
+            // Kontrollera cellerna efter reset
+            for (int row = 0; row < 3; row++) {
+                for (int col = 0; col < 3; col++) {
+                    assertEquals("", boardView.getCell(row, col).getText(), "Cellen bör vara tom efter reset");
+                    assertFalse(boardView.getCell(row, col).isDisabled(), "Cellen bör vara aktiverad efter reset");
+                }
+            }
+        });
+    }
+}
+
+class ComputerTest {
+
+    private Computer computer;
+    private Board board;
+
+    @BeforeEach
+    void setUp() {
+        computer = new Computer();
+        board = new Board();
+    }
+
+    @Test
+    void testGetRandomMove() {
+        // Begär ett drag från datorn
+        int[] move = computer.getRandomMove(board);
+
+        // Kontrollera att draget är inom spelplanens gränser
+        assertTrue(move[0] >= 0 && move[0] < 3, "Radvärdet bör vara mellan 0 och 2");
+        assertTrue(move[1] >= 0 && move[1] < 3, "Kolumnvärdet bör vara mellan 0 och 2");
+
+        // Kontrollera att draget gjordes på en tom plats
+        assertEquals(' ', board.getGrid()[move[0]][move[1]], "Positionen bör vara tom");
+    }
+}
