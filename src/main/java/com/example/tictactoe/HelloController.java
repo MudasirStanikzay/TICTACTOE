@@ -60,3 +60,15 @@ class GameController {
             boardView.reset();
         }
     }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setContentText(message + "\nPlayer Score: " + playerScore + " - Computer Score: " + computerScore);
+        alert.showAndWait();
+    }
+
+    public BoardView getBoardView() {
+        return boardView;
+    }
+}
