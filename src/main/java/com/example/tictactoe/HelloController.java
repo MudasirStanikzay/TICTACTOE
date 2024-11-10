@@ -41,4 +41,22 @@ class GameController {
         boardView.getCell(move[0], move[1]).setText("O");
         checkGameState();
     }
-}
+
+    private void checkGameState() {
+        char result = board.checkWinner();
+        if (result != ' ') {
+            String message;
+            if (result == 'X') {
+                message = "Player Wins!";
+                playerScore++;
+            } else if (result == 'O') {
+                message = "Computer Wins!";
+                computerScore++;
+            } else {
+                message = "It's a draw!";
+            }
+            showAlert(message);
+            board.reset();
+            boardView.reset();
+        }
+    }
