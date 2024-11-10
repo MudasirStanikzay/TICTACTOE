@@ -26,3 +26,22 @@ public class HelloApplication extends Application {
         stage.setTitle("Tic-Tac-Toe Menu");
         stage.show();
     }
+
+    private void createStartMenu(Stage stage) {
+        // Create the "Start Game" button
+        Button startButton = new Button("Start Game");
+        startButton.setOnAction(e -> {
+            // Switch to the game scene when "Start Game" is clicked
+            stage.setScene(gameScene);
+            stage.setTitle("Tic-Tac-Toe Game");
+        });
+
+        // Set up the start menu layout
+        StackPane menuLayout = new StackPane(startButton);
+        startMenuScene = new Scene(menuLayout, 300, 300);
+    }
+
+    public static void main(String[] args) {
+        launch();
+    }
+}
